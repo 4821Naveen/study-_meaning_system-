@@ -15,7 +15,7 @@ app.add_url_rule('/photos/<path:filename>', endpoint='photos', view_func=app.sen
 def connect_db(user, password, db):
     try:
         connection = mysql.connector.connect(
-            host='localhost',
+            host='mysql-rds-agile-fig-80z1.cdacq2k8q70w.us-west-2.rds.amazonaws.com',
             user=user,
             password=password,
             database=db
@@ -42,7 +42,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        if username in ['user1', 'user2', 'user3', 'user4'] and password == f'password{username[-1]}':
+        if username in ['root', 'user2', 'user3', 'user4'] and password == f'password{username[-1]}':
             session['user'] = username
             return redirect(url_for('user', db=f'database{username[-1]}'))
         else:
