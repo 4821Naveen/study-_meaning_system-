@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 flex">
+    <!-- Sidebar (Navigation Bar) -->
+  <div class="bg-gray-800 text-white p-4">
+      {% include "nav.html" %}
+  </div>
+
+  <div class="flex-1 p-6">
+    <div class="container mx-auto flex justify-between items-center">
+        <div class="text-white text-lg font-semibold">
+           
+        </div>
+        <div class="space-x-4">
+            <a href="{{ url_for('export_information', db=db, table_name='student_information_sheet') }}" 
+               class="px-4 py-2 bg-green-500 text-white rounded-lg shadow hover:bg-green-600">
+                Export Data
+            </a>
+            <a href="{{ url_for('report', db=db) }}" 
+                class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600">
+                View Reports
+            </a>
+        </div>
+    </div>
+
+  <div class="container mx-auto mt-8">
+    <h1 class="text-2xl font-semibold mb-6 text-center">Information List</h1>
+      <a href="{{ url_for('information_form', db=db) }}" 
+        class="flex items-center space-x-2 bg-blue-500 text-white w-48 h-12 justify-center rounded-md text-sm font-medium hover:bg-blue-600 shadow">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+            <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+            <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"/>
+        </svg>
+        <span>Add Student</span>
+      </a>
+      <br>
+    <table class="table-auto w-full bg-white rounded-lg shadow-md">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="px-4 py-2">Sl. No</th>
+          <th class="px-4 py-2">Name</th>
+          <th class="px-4 py-2">Father's Name</th>
+          <th class="px-4 py-2">Employment Status</th>
+          <th class="px-4 py-2">Course Interested</th>
+          <th class="px-4 py-2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in students %}
+        <tr class="text-center border-b">
+          <td class="px-4 py-2">{{ loop.index }}</td>
+          <td class="px-4 py-2">{{ student.name }}</td>
+          <td class="px-4 py-2">{{ student.father_name }}</td>
+          <td class="px-4 py-2">{{ student.employment_status }}</td>
+          <td class="px-4 py-2">{{ student.course_interested }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

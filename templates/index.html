@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <div class="flex justify-between items-center bg-blue-500 p-4 text-white">
+        <h1 class="text-2xl font-semibold">Welcome, {{ user }}!</h1>
+        <a href="{{ url_for('logout') }}" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">
+            Logout
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto p-6">
+        <h2 class="text-2xl font-semibold mb-6">Student List</h2>
+
+        <!-- Table -->
+        <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-lg">
+            <thead>
+                <tr class="bg-gray-100 text-left">
+                    <th class="px-4 py-2 border-b">Enroll No</th>
+                    <th class="px-4 py-2 border-b">Name</th>
+                    <th class="px-4 py-2 border-b">Course</th>
+                    <th class="px-4 py-2 border-b">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-2 border-b">{{ student['enroll_no'] }}</td>
+                    <td class="px-4 py-2 border-b">{{ student['name'] }}</td>
+                    <td class="px-4 py-2 border-b">{{ student['course'] }}</td>
+                    <td class="px-4 py-2 border-b flex space-x-4">
+                        <!-- Edit -->
+                        <a href="{{ url_for('edit_student', db=db, enroll_no=student['enroll_no']) }}" 
+                           class="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-2 rounded">
+                            Edit
+                        </a>
+                        <!-- Delete -->
+                        <form method="POST" action="{{ url_for('delete_student', db=db) }}" class="inline">
+                            <input type="hidden" name="enroll_no" value="{{ student['enroll_no'] }}">
+                            <button type="submit" 
+                                    class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded"
+                                    onclick="return confirm('Are you sure you want to delete this record?');">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

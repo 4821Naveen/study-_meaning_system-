@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Report</title>
+    <!-- Include Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-800 flex">
+
+    <!-- Sidebar (Navigation Bar) -->
+    <div class="bg-gray-800 text-white p-4">
+        {% include "nav.html" %}
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 p-8">
+        <div class="grid grid-cols-2 gap-8 mb-12">
+            <!-- Monthly Fee Report (Left) -->
+            <div class="col-span-1">
+                <h4 class="text-2xl font-semibold mb-4">Monthly Fee Report</h4>
+                <canvas id="feesChart" class="w-full" width="400" height="200"></canvas>
+            </div>
+
+            <!-- Monthly Student Count (Right) -->
+            <div class="col-span-1">
+                <h4 class="text-2xl font-semibold mb-4">Monthly Student Count</h4>
+                <canvas id="studentChart" class="w-full" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <!-- Monthly Course Count -->
+        <div>
+            <h4 class="text-2xl font-semibold mb-4">Monthly Course Count</h4>
+            <canvas id="courseChart" class="w-full" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const feesCtx = document.getElementById('feesChart').getContext('2d');
+        const feesChart = new Chart(feesCtx, {
+            type: 'line',
+            data: {
+                labels: {{ months|tojson }},
+                datasets: [{
+                    label: 'Total Fees',
+                    data: {{ fees|tojson }},
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true,
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return '₹' + tooltipItem.raw.toFixed(2);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        const studentCtx = document.getElementById('studentChart').getContext('2d');
+        const studentChart = new Chart(studentCtx, {
+            type: 'bar',
+            data: {
+                labels: {{ months|tojson }},
+                datasets: [{
+                    label: 'Number of Students',
+                    data: {{ student_counts|tojson }},
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.raw + ' students';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        const courseCtx = document.getElementById('courseChart').getContext('2d');
+        const courseChart = new Chart(courseCtx, {
+            type: 'bar',
+            data: {
+                labels: {{ months|tojson }},
+                datasets: [{
+                    label: 'Number of Courses',
+                    data: {{ course_counts|tojson }},
+                    backgroundColor: 'rgba(255, 159, 64, 0.5)',
+                    borderColor: 'rgba(255, 159, 64, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.raw + ' courses';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

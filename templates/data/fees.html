@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enrollment Form</title>
+  <script src="https://cdn.tailwindcss.com"></script> <!-- Link to Tailwind CSS -->
+</head>
+<body>
+    {% include "nav.html" %}
+  <div class="flex bg-gray-300">
+    <div class="ml-64 p-4 flex-1">
+        <div class="bg-white p-6 rounded-lg shadow-lg"> <!-- Added better styling -->
+          <br />
+          <h2 class="text-2xl font-bold mb-6 text-center"></h2>
+          <form >
+            <div class="grid grid-cols-3 gap-4">
+              <div>
+                <label class="block text-gray-700 font-semibold mb-2" for="enrollNo">Enrollment No</label>
+                <input
+                  type="text"
+                  id="enrollNo"
+                  name="enrollNo"
+                  placeholder="Enrollment No"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  required
+                />
+              </div>
+              <div>
+                <label class="block text-gray-700 font-semibold mb-2" for="billNo">Bill No</label>
+                <input
+                  type="text"
+                  id="billNo"
+                  name="billNo"
+                  placeholder="Bill No"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  required
+                />
+              </div>
+              <div>
+                <label class="block text-gray-700 font-semibold mb-2">Bill Date</label>
+                <input type="date" name="dateOfJoin" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+              </div>
+              <div>
+                <label class="block text-gray-700 font-semibold mb-2" for="amountOfFees">Amount of Fees</label>
+                <input
+                  type="text"
+                  id="amountOfFees"
+                  name="amountOfFees"
+                  placeholder="Amount of Fees"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  required
+                />
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  class="bg-blue-500 text-white py-2 px-7 rounded-md hover:bg-blue-600 transition duration-200"
+                >
+                  Update Fees
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
